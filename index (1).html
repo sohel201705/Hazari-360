@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f7fb">
+<title>হাজারী ৩৬০</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;min-height:100%;background:#f5f7fb}
+body{color:#172033;font-family:Arial,"Noto Sans Bengali",sans-serif;font-weight:700}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{width:100%;max-width:none;margin:0;padding:8px 8px 18px}
+.card{width:100%;background:#fff;border:1px solid #e3e8f1;border-radius:12px;padding:8px;margin:0 0 7px;box-shadow:0 1px 7px rgba(30,50,90,.05)}
+.title{font-size:19px;line-height:1.2;text-align:center;margin:0 0 7px}
+.names{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.name{width:100%;min-width:0;height:34px;border:1px solid #d7deea;border-radius:8px;background:#fbfcff;text-align:center;padding:5px 3px;font-size:12px;font-weight:700}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px}
+button{border:0;border-radius:8px;height:32px;padding:0 7px;font-size:12px;font-weight:700}
+.primary{background:#315efb;color:#fff}.secondary{background:#edf1f7;color:#24304a}
+.table-card{padding:5px 3px 7px;overflow:hidden}
+table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:2px 5px}
+thead th{font-size:10px;line-height:1.1;padding:2px 1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+thead th:first-child{width:31px}
+thead th:last-child{width:39px}
+tbody td{text-align:center;padding:0}
+.round{width:31px;font-size:11px}
+.score{display:block;width:100%;height:32px;border:1px solid #d7deea;border-radius:7px;background:#fff;text-align:center;padding:4px 1px;font-size:13px;font-weight:700;color:#172033}
+.score:focus{border-color:#315efb;outline:0;box-shadow:0 0 0 2px rgba(49,94,251,.1)}
+.total{height:27px;border-radius:7px;background:#f0f3f8;display:flex;align-items:center;justify-content:center;font-size:12px}
+.status{height:18px;border-radius:6px;margin-top:2px;font-size:9px;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+.ok{background:#e7f7ed;color:#14733d}.low{background:#fff3d6;color:#8a5b00}.high{background:#ffe5e5;color:#a12525}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.sum{min-width:0;background:#f1f4f8;border-radius:8px;text-align:center;padding:6px 2px;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sum b{display:block;font-size:14px;margin-top:1px}
+.win{outline:2px solid #315efb;background:#eaf0ff}
+.history-title{font-size:13px;margin-bottom:5px}
+.history-item{display:flex;align-items:center;justify-content:space-between;gap:5px;background:#f4f6fa;border-radius:7px;padding:6px;font-size:9px;margin-top:4px}
+.history-item .info{min-width:0;overflow:hidden}
+.history-item .buttons{display:flex;gap:3px;flex-shrink:0}
+.history-item button{height:26px;font-size:9px;padding:0 6px}
+.note{text-align:center;font-size:9px;color:#7b8497;margin-top:5px}
+@media(min-width:700px){
+  .app{padding:10px 12px 20px}
+  .card{border-radius:14px}
+  .name{height:38px;font-size:13px}
+  button{height:36px}
+  thead th{font-size:11px}
+  .score{height:35px;font-size:14px}
+  .total{height:29px;font-size:13px}
+  .status{height:19px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="card">
+    <h1 class="title">হাজারী ৩৬০</h1>
+    <div class="names" id="names"></div>
+    <div class="actions">
+      <button class="primary" onclick="newGame()">নতুন গেম</button>
+      <button class="secondary" onclick="toggleHistory()">হিস্ট্রি</button>
+    </div>
+  </section>
+
+  <section class="card table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>রাউন্ড</th>
+          <th id="h0">খেলোয়াড় ১</th>
+          <th id="h1">খেলোয়াড় ২</th>
+          <th id="h2">খেলোয়াড় ৩</th>
+          <th id="h3">খেলোয়াড় ৪</th>
+          <th>মোট</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <div class="summary" id="summary"></div>
+    <div class="note">প্রতি রাউন্ডের মোট ৩৬০ হওয়া উচিত</div>
+  </section>
+
+  <section class="card" id="history" style="display:none">
+    <div class="history-title">গেম হিস্ট্রি</div>
+    <div id="historyList"></div>
+  </section>
+</div>
+
+<script>
+const KEY='hazari360_game_v7';
+const HKEY='hazari360_history_v7';
+const ROUNDS=30;
+
+function fresh(){
+  return {
+    names:['খেলোয়াড় ১','খেলোয়াড় ২','খেলোয়াড় ৩','খেলোয়াড় ৪'],
+    rounds:Array.from({length:ROUNDS},()=>[0,0,0,0])
+  };
+}
+function load(){
+  try{return JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){return fresh()}
+}
+let state=load();
+
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function getHistory(){
+  try{return JSON.parse(localStorage.getItem(HKEY))||[]}catch(e){return []}
+}
+function saveHistory(h){localStorage.setItem(HKEY,JSON.stringify(h.slice(0,20)))}
+
+function renderNames(){
+  const box=document.getElementById('names');
+  box.innerHTML='';
+  state.names.forEach((name,i)=>{
+    const el=document.createElement('input');
+    el.className='name';
+    el.value=name;
+    el.placeholder='খেলোয়াড় '+(i+1);
+    el.oninput=()=>{
+      state.names[i]=el.value;
+      save();
+      renderHeaders();
+      renderSummary();
+    };
+    box.appendChild(el);
+  });
+}
+function renderHeaders(){
+  for(let i=0;i<4;i++){
+    document.getElementById('h'+i).textContent=state.names[i]||('খেলোয়াড় '+(i+1));
+  }
+}
+function focusScore(el){
+  if(el.value==='0') el.value='';
+}
+function blurScore(el,r,p){
+  if(el.value.trim()==='') el.value='0';
+  let v=parseInt(el.value,10);
+  if(!Number.isFinite(v)||v<0)v=0;
+  el.value=v;
+  state.rounds[r][p]=v;
+  save();
+  render();
+}
+function renderSummary(){
+  const totals=[0,0,0,0];
+  state.rounds.forEach(a=>a.forEach((v,i)=>totals[i]+=Number(v)||0));
+  const max=Math.max(...totals);
+  document.getElementById('summary').innerHTML=totals.map((v,i)=>
+    `<div class="sum ${v===max&&max>0?'win':''}">
+      ${escapeHtml(state.names[i]||('খেলোয়াড় '+(i+1)))}<b>${v}</b>
+    </div>`
+  ).join('');
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function render(){
+  renderNames();
+  renderHeaders();
+  const rows=document.getElementById('rows');
+  rows.innerHTML='';
+  state.rounds.forEach((a,r)=>{
+    const tr=document.createElement('tr');
+    let cells=`<td class="round">${r+1}</td>`;
+    for(let p=0;p<4;p++){
+      cells+=`<td>
+        <input class="score" inputmode="numeric" type="number" min="0" value="${Number(a[p])||0}"
+          onfocus="focusScore(this)" onclick="focusScore(this)"
+          onblur="blurScore(this,${r},${p})"
+          onkeydown="if(event.key==='Enter')this.blur()">
+      </td>`;
+    }
+    const total=a.reduce((x,y)=>x+(Number(y)||0),0);
+    const cls=total===360?'ok':(total<360?'low':'high');
+    const txt=total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি');
+    cells+=`<td><div class="total">${total}</div><div class="status ${cls}">${txt}</div></td>`;
+    tr.innerHTML=cells;
+    rows.appendChild(tr);
+  });
+  renderSummary();
+  renderHistory();
+}
+function newGame(){
+  const hasScore=state.rounds.some(a=>a.some(v=>Number(v)>0));
+  if(hasScore){
+    const h=getHistory();
+    h.unshift({
+      time:new Date().toLocaleString('bn-BD'),
+      names:[...state.names],
+      rounds:state.rounds.map(a=>[...a])
+    });
+    saveHistory(h);
+  }
+  state={
+    names:[...state.names],
+    rounds:Array.from({length:ROUNDS},()=>[0,0,0,0])
+  };
+  save();
+  render();
+  window.scrollTo(0,0);
+}
+function toggleHistory(){
+  const el=document.getElementById('history');
+  el.style.display=el.style.display==='none'?'block':'none';
+  renderHistory();
+}
+function renderHistory(){
+  const list=document.getElementById('historyList');
+  const h=getHistory();
+  if(!h.length){
+    list.innerHTML='<div style="font-size:10px;color:#7b8497">কোনো পুরোনো গেম নেই</div>';
+    return;
+  }
+  list.innerHTML=h.map((g,i)=>{
+    const totals=[0,0,0,0];
+    g.rounds.forEach(a=>a.forEach((v,p)=>totals[p]+=Number(v)||0));
+    return `<div class="history-item">
+      <div class="info">${escapeHtml(g.time)}<br>${escapeHtml(g.names.join(' · '))}<br>${totals.join(' / ')}</div>
+      <div class="buttons">
+        <button class="secondary" onclick="restoreGame(${i})">Restore</button>
+        <button class="secondary" onclick="deleteHistory(${i})">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function restoreGame(i){
+  const h=getHistory();
+  if(!h[i])return;
+  state={
+    names:[...h[i].names],
+    rounds:h[i].rounds.map(a=>[...a])
+  };
+  save();
+  render();
+  document.getElementById('history').style.display='none';
+  window.scrollTo(0,0);
+}
+function deleteHistory(i){
+  const h=getHistory();
+  h.splice(i,1);
+  saveHistory(h);
+  renderHistory();
+}
+render();
+</script>
+</body>
+</html>
