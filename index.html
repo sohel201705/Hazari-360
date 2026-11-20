@@ -122,7 +122,7 @@ function load(){
     saved.rounds=saved.rounds.slice(0,ROUNDS).map(a=>{
       const row=Array.isArray(a)?a.slice(0,4):[null,null,null,null];
       while(row.length<4)row.push(null);
-      return row.map(v=>v==='×'?'×':(v===null||v===undefined||v===''||Number(v)===0?null:Number(v)));
+      return row.map(v=>v==='×'?'×':(v===null||v===undefined||v===''?null:Number(v)));
     });
     while(saved.rounds.length<ROUNDS)saved.rounds.push([null,null,null,null]);
     return saved;
@@ -159,7 +159,8 @@ function renderHeaders(){
   }
 }
 function focusScore(el){
-  if(el.value==='0') el.value='';
+  // আগের পয়েন্টের সঙ্গে নতুন সংখ্যা জুড়ে না গিয়ে সহজে পুরোটা বদলানো যাবে।
+  el.select();
 }
 function apply360Rule(r){
   const values=state.rounds[r];
@@ -183,8 +184,9 @@ function editX(r,p){
   if(!row)return;
   makeScoreInput(row.children[p+1],r,p,'');
   save();
+  updateRowDisplay(r);
   const input=row.children[p+1].querySelector('input');
-  if(input)input.focus();
+  if(input){input.focus();input.select();}
 }
 function apply360Rule(r){
   const values=state.rounds[r];
@@ -230,8 +232,18 @@ function blurScore(el,r,p){
   state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
   apply360Rule(r);
   save();
-  // টেবিল পুনরায় render নয়—পরের ইনপুটের টাচ/ফোকাস নষ্ট হবে না।
-  updateRowDisplay(r);
+  // Blur-এ কোনো DOM পরিবর্তন নয়: পাশের বক্সে টাচ করলে সেই ক্লিক অক্ষত থাকবে।
+  const row=el.closest('tr');
+  if(row){
+    const values=state.rounds[r];
+    const total=values.reduce((s,v)=>s+(typeof v==='number'?v:0),0);
+    const done=values.every(v=>v!==null&&v!==undefined);
+    row.querySelector('.total').textContent=total;
+    const st=row.querySelector('.status');
+    st.textContent=done?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
+    st.className='status '+(done?(total===360?'ok':(total<360?'low':'high')):'low');
+  }
+  renderSummary();
 }
 function updateRowDisplay(r){
   const row=document.querySelectorAll('#rows tr')[r];
