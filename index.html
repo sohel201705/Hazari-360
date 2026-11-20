@@ -158,20 +158,42 @@ function focusScore(el){
 function updateScoreLive(el,r,p){
   const raw=el.value.trim();
   state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
-  const entered=state.rounds[r].filter(v=>v!==null&&v!=='×').length;
+
+  // প্রতিটি ইনপুটের সাথেই হিসাব আপডেট হবে; দুইটি স্কোর হলে বাকি ঘরে X বসবে।
+  const entered=state.rounds[r].filter(v=>typeof v==='number').length;
   if(entered>=2){
     state.rounds[r]=state.rounds[r].map(v=>v===null?'×':v);
-    save();
-    render();
   }else{
-    save();
-    const row=el.closest('tr');
-    const total=state.rounds[r].reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
-    row.querySelector('.total').textContent=total;
-    row.querySelector('.status').textContent='চলছে';
-    row.querySelector('.status').className='status low';
-    renderSummary();
+    state.rounds[r]=state.rounds[r].map(v=>v==='×'?null:v);
   }
+
+  const row=el.closest('tr');
+  for(let i=0;i<4;i++){
+    if(i===p)continue; // টাইপ করা ইনপুট ও কার্সর অক্ষত রাখি।
+    const cell=row.children[i+1];
+    const value=state.rounds[r][i];
+    if(value==='×'){
+      if(!cell.querySelector('.auto-x')){
+        cell.innerHTML='<div class="score auto-x" aria-label="স্বয়ংক্রিয় বাদ">×</div>';
+      }
+    }else if(!cell.querySelector('input.score')){
+      cell.innerHTML=`<input class="score" inputmode="numeric" type="number" min="0" value="" placeholder="—"
+        onfocus="focusScore(this)" onclick="focusScore(this)"
+        oninput="updateScoreLive(this,${r},${i})"
+        onblur="blurScore(this,${r},${i})"
+        onkeydown="if(event.key==='Enter')this.blur()">`;
+    }
+  }
+
+  const values=state.rounds[r];
+  const total=values.reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
+  const completed=values.every(v=>v!==null&&v!==undefined);
+  const status=row.querySelector('.status');
+  row.querySelector('.total').textContent=total;
+  status.textContent=completed?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
+  status.className='status '+(completed?(total===360?'ok':(total<360?'low':'high')):'low');
+  save();
+  renderSummary();
 }
 function addRound(){
   state.rounds.push([null,null,null,null]);
