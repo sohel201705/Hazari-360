@@ -159,8 +159,25 @@ function renderHeaders(){
   }
 }
 function focusScore(el){
-  // আগের পয়েন্টের সঙ্গে নতুন সংখ্যা জুড়ে না গিয়ে সহজে পুরোটা বদলানো যাবে।
+  // পরের রাউন্ডে ঢুকলেই আগের ৩৬০-পূর্ণ রাউন্ডের ফাঁকা ঘরে X বসবে।
+  const row=el.closest('tr');
+  const currentRound=row?Array.from(row.parentElement.children).indexOf(row):-1;
+  if(currentRound>0){
+    for(let i=0;i<currentRound;i++)finalizeRound(i);
+  }
   el.select();
+}
+function finalizeRound(r){
+  const values=state.rounds[r];
+  if(!values)return;
+  const total=values.reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
+  state.rounds[r]=values.map(v=>{
+    if(total===360&&(v===null||v===undefined))return '×';
+    if(total!==360&&v==='×')return null;
+    return v;
+  });
+  save();
+  updateRowDisplay(r);
 }
 function apply360Rule(r){
   const values=state.rounds[r];
@@ -198,10 +215,16 @@ function apply360Rule(r){
   });
 }
 function updateScoreLive(el,r,p){
-  const raw=el.value.replace(/[^0-9]/g,'').trim();
-  if(el.value!==raw)el.value=raw;
+  let raw=el.value.replace(/[^0-9]/g,'').trim();
+  const otherTotal=state.rounds[r].reduce((sum,v,i)=>sum+(i!==p&&typeof v==='number'?v:0),0);
+  const entered=raw===''?null:Math.max(0,parseInt(raw,10)||0);
+  if(entered!==null&&entered+otherTotal>360){
+    raw=String(Math.max(0,360-otherTotal));
+    el.value=raw;
+  }else if(el.value!==raw)el.value=raw;
   state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
-  apply360Rule(r);
+  const liveTotal=state.rounds[r].reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
+  if(liveTotal!==360)state.rounds[r]=state.rounds[r].map(v=>v==='×'?null:v);
   const row=el.closest('tr');
   for(let i=0;i<4;i++){
     if(i===p)continue;
@@ -231,8 +254,15 @@ function addRound(){
 function blurScore(el,r,p){
   const raw=el.value.replace(/[^0-9]/g,'').trim();
   if(el.value!==raw)el.value=raw;
-  state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
-  apply360Rule(r);
+  const otherTotal=state.rounds[r].reduce((sum,v,i)=>sum+(i!==p&&typeof v==='number'?v:0),0);
+  let entered=raw===''?null:Math.max(0,parseInt(raw,10)||0);
+  if(entered!==null&&entered+otherTotal>360){
+    entered=Math.max(0,360-otherTotal);
+    el.value=String(entered);
+  }
+  state.rounds[r][p]=entered;
+  const liveTotal=state.rounds[r].reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
+  if(liveTotal!==360)state.rounds[r]=state.rounds[r].map(v=>v==='×'?null:v);
   save();
   // Blur-এ কোনো DOM পরিবর্তন নয়: পাশের বক্সে টাচ করলে সেই ক্লিক অক্ষত থাকবে।
   const row=el.closest('tr');
