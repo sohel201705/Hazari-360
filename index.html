@@ -13,43 +13,45 @@ button,input{font:inherit}
 button{cursor:pointer}
 .app{width:100%;max-width:none;margin:0;padding:8px 8px 18px}
 .card{width:100%;background:#fff;border:1px solid #e3e8f1;border-radius:12px;padding:8px;margin:0 0 7px;box-shadow:0 1px 7px rgba(30,50,90,.05)}
-.title{font-size:19px;line-height:1.2;text-align:center;margin:0 0 7px}
+.title{font-size:24px;line-height:1.25;text-align:center;margin:0 0 9px}
 .names{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
-.name{width:100%;min-width:0;height:34px;border:1px solid #d7deea;border-radius:8px;background:#fbfcff;text-align:center;padding:5px 3px;font-size:12px;font-weight:700}
+.name{width:100%;min-width:0;height:42px;border:1px solid #d7deea;border-radius:8px;background:#fbfcff;text-align:center;padding:6px 3px;font-size:15px;font-weight:700}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px}
-button{border:0;border-radius:8px;height:32px;padding:0 7px;font-size:12px;font-weight:700}
+button{border:0;border-radius:8px;min-height:42px;padding:7px 9px;font-size:15px;font-weight:700}
 .primary{background:#315efb;color:#fff}.secondary{background:#edf1f7;color:#24304a}
 .table-card{padding:5px 3px 7px;overflow:hidden}
 table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:2px 5px}
-thead th{font-size:10px;line-height:1.1;padding:2px 1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+thead th{font-size:13px;line-height:1.2;padding:4px 1px;white-space:normal;overflow-wrap:anywhere}
 thead th:first-child{width:31px}
 thead th:last-child{width:39px}
 tbody td{text-align:center;padding:0}
-.round{width:31px;font-size:11px}
-.score{display:block;width:100%;height:32px;border:1px solid #d7deea;border-radius:7px;background:#fff;text-align:center;padding:4px 1px;font-size:13px;font-weight:700;color:#172033}
+.round{width:31px;font-size:14px}
+.score{display:block;width:100%;height:42px;border:1px solid #d7deea;border-radius:7px;background:#fff;text-align:center;padding:5px 1px;font-size:17px;font-weight:700;color:#172033}
 .score:focus{border-color:#315efb;outline:0;box-shadow:0 0 0 2px rgba(49,94,251,.1)}
-.total{height:27px;border-radius:7px;background:#f0f3f8;display:flex;align-items:center;justify-content:center;font-size:12px}
-.status{height:18px;border-radius:6px;margin-top:2px;font-size:9px;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+.total{height:34px;border-radius:7px;background:#f0f3f8;display:flex;align-items:center;justify-content:center;font-size:15px}
+.status{min-height:24px;border-radius:6px;margin-top:3px;font-size:11px;display:flex;align-items:center;justify-content:center;white-space:normal}
 .ok{background:#e7f7ed;color:#14733d}.low{background:#fff3d6;color:#8a5b00}.high{background:#ffe5e5;color:#a12525}
 .summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
-.sum{min-width:0;background:#f1f4f8;border-radius:8px;text-align:center;padding:6px 2px;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sum b{display:block;font-size:14px;margin-top:1px}
+.sum{min-width:0;background:#f1f4f8;border-radius:8px;text-align:center;padding:8px 3px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sum b{display:block;font-size:19px;margin-top:3px}
 .win{outline:2px solid #315efb;background:#eaf0ff}
-.history-title{font-size:13px;margin-bottom:5px}
-.history-item{display:flex;align-items:center;justify-content:space-between;gap:5px;background:#f4f6fa;border-radius:7px;padding:6px;font-size:9px;margin-top:4px}
+.history-title{font-size:17px;margin-bottom:7px}
+.history-item{display:flex;align-items:center;justify-content:space-between;gap:5px;background:#f4f6fa;border-radius:7px;padding:8px;font-size:13px;margin-top:5px}
 .history-item .info{min-width:0;overflow:hidden}
 .history-item .buttons{display:flex;gap:3px;flex-shrink:0}
-.history-item button{height:26px;font-size:9px;padding:0 6px}
-.note{text-align:center;font-size:9px;color:#7b8497;margin-top:5px}
+.history-item button{min-height:34px;font-size:12px;padding:5px 7px}
+.note{text-align:center;font-size:13px;color:#7b8497;margin-top:7px}
+.add-round-wrap{padding:0 3px 8px}
+.add-round{width:100%;background:#e8efff;color:#2448bd;border:1px solid #cbd8ff}
 @media(min-width:700px){
   .app{padding:10px 12px 20px}
   .card{border-radius:14px}
-  .name{height:38px;font-size:13px}
-  button{height:36px}
-  thead th{font-size:11px}
-  .score{height:35px;font-size:14px}
-  .total{height:29px;font-size:13px}
-  .status{height:19px;font-size:10px}
+  .name{height:44px;font-size:15px}
+  button{min-height:42px}
+  thead th{font-size:14px}
+  .score{height:42px;font-size:17px}
+  .total{height:34px;font-size:15px}
+  .status{min-height:24px;font-size:11px}
 }
 </style>
 </head>
@@ -80,6 +82,8 @@ tbody td{text-align:center;padding:0}
     </table>
   </section>
 
+  <div class="add-round-wrap"><button class="add-round" onclick="addRound()">＋ আরও রাউন্ড যোগ করুন</button></div>
+
   <section class="card">
     <div class="summary" id="summary"></div>
     <div class="note">প্রতি রাউন্ডের মোট ৩৬০ হওয়া উচিত</div>
@@ -94,7 +98,7 @@ tbody td{text-align:center;padding:0}
 <script>
 const KEY='hazari360_game_v7';
 const HKEY='hazari360_history_v7';
-const ROUNDS=30;
+const ROUNDS=10;
 
 function fresh(){
   return {
@@ -103,7 +107,15 @@ function fresh(){
   };
 }
 function load(){
-  try{return JSON.parse(localStorage.getItem(KEY))||fresh()}catch(e){return fresh()}
+  try{
+    const saved=JSON.parse(localStorage.getItem(KEY));
+    if(!saved||!Array.isArray(saved.rounds))return fresh();
+    saved.names=Array.isArray(saved.names)?saved.names.slice(0,4):fresh().names;
+    while(saved.names.length<4)saved.names.push('খেলোয়াড় '+(saved.names.length+1));
+    saved.rounds=saved.rounds.slice(0,ROUNDS);
+    while(saved.rounds.length<ROUNDS)saved.rounds.push([0,0,0,0]);
+    return saved;
+  }catch(e){return fresh()}
 }
 let state=load();
 
@@ -137,6 +149,26 @@ function renderHeaders(){
 }
 function focusScore(el){
   if(el.value==='0') el.value='';
+}
+function updateScoreLive(el,r,p){
+  let v=parseInt(el.value,10);
+  if(!Number.isFinite(v)||v<0)v=0;
+  state.rounds[r][p]=v;
+  save();
+  const row=el.closest('tr');
+  const total=state.rounds[r].reduce((x,y)=>x+(Number(y)||0),0);
+  row.querySelector('.total').textContent=total;
+  const status=row.querySelector('.status');
+  status.className='status '+(total===360?'ok':(total<360?'low':'high'));
+  status.textContent=total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি');
+  renderSummary();
+}
+function addRound(){
+  state.rounds.push([0,0,0,0]);
+  save();
+  render();
+  const inputs=document.querySelectorAll('#rows tr:last-child .score');
+  if(inputs.length)inputs[0].focus();
 }
 function blurScore(el,r,p){
   if(el.value.trim()==='') el.value='0';
@@ -172,6 +204,7 @@ function render(){
       cells+=`<td>
         <input class="score" inputmode="numeric" type="number" min="0" value="${Number(a[p])||0}"
           onfocus="focusScore(this)" onclick="focusScore(this)"
+          oninput="updateScoreLive(this,${r},${p})"
           onblur="blurScore(this,${r},${p})"
           onkeydown="if(event.key==='Enter')this.blur()">
       </td>`;
