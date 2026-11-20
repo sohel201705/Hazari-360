@@ -7,52 +7,58 @@
 <title>হাজারী ৩৬০</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;width:100%;min-height:100%;background:#f5f7fb}
-body{color:#172033;font-family:Arial,"Noto Sans Bengali",sans-serif;font-weight:700}
-button,input{font:inherit}
-button{cursor:pointer}
-.app{width:100%;max-width:none;margin:0;padding:8px 8px 18px}
-.card{width:100%;background:#fff;border:1px solid #e3e8f1;border-radius:12px;padding:8px;margin:0 0 7px;box-shadow:0 1px 7px rgba(30,50,90,.05)}
-.title{font-size:24px;line-height:1.25;text-align:center;margin:0 0 9px}
-.names{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
-.name{width:100%;min-width:0;height:42px;border:1px solid #d7deea;border-radius:8px;background:#fbfcff;text-align:center;padding:6px 3px;font-size:15px;font-weight:700}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px}
-button{border:0;border-radius:8px;min-height:42px;padding:7px 9px;font-size:15px;font-weight:700}
-.primary{background:#315efb;color:#fff}.secondary{background:#edf1f7;color:#24304a}
-.table-card{padding:5px 3px 7px;overflow:hidden}
-table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:2px 5px}
-thead th{font-size:13px;line-height:1.2;padding:4px 1px;white-space:normal;overflow-wrap:anywhere}
-thead th:first-child{width:31px}
-thead th:last-child{width:39px}
+html,body{margin:0;padding:0;width:100%;min-height:100%;background:#f3f6fc}
+body{color:#17233b;font-family:"Hind Siliguri","Noto Sans Bengali",Arial,sans-serif;font-weight:700}
+button,input{font:inherit}button{cursor:pointer}
+.app{width:100%;max-width:980px;margin:0 auto;padding:12px 9px 24px}
+.card{width:100%;background:#fff;border:1px solid #e2e8f3;border-radius:16px;padding:12px;margin:0 0 10px;box-shadow:0 5px 18px rgba(35,55,95,.06)}
+.title{font-size:28px;line-height:1.25;text-align:center;margin:0 0 12px;color:#1e3470;letter-spacing:.2px}
+.names{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.name{width:100%;min-width:0;height:46px;border:1.5px solid #d8e0ef;border-radius:11px;background:#f8faff;text-align:center;padding:6px 3px;font-size:16px;font-weight:800;color:#1c2942}
+.name:focus,.score:focus{border-color:#4268ed;outline:0;box-shadow:0 0 0 3px rgba(66,104,237,.13)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
+button{border:0;border-radius:11px;min-height:44px;padding:8px 10px;font-size:16px;font-weight:800}
+.primary{background:linear-gradient(135deg,#315efb,#2446c8);color:#fff;box-shadow:0 4px 10px rgba(49,94,251,.18)}
+.secondary{background:#edf2fb;color:#263858}
+.table-card{padding:8px 5px 10px;overflow-x:auto}
+table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:3px 6px}
+thead th{font-size:15px;line-height:1.2;padding:6px 2px;color:#455675;white-space:normal;overflow-wrap:anywhere}
+thead th:first-child{width:36px}
+thead th:last-child{width:52px}
 tbody td{text-align:center;padding:0}
-.round{width:31px;font-size:14px}
-.score{display:block;width:100%;height:42px;border:1px solid #d7deea;border-radius:7px;background:#fff;text-align:center;padding:5px 1px;font-size:17px;font-weight:700;color:#172033}
-.score:focus{border-color:#315efb;outline:0;box-shadow:0 0 0 2px rgba(49,94,251,.1)}
-.score.auto-x{background:#eef1f6;color:#687386;border-color:#d9dee8;font-weight:800;text-align:center}
-.total{height:34px;border-radius:7px;background:#f0f3f8;display:flex;align-items:center;justify-content:center;font-size:15px}
-.status{min-height:24px;border-radius:6px;margin-top:3px;font-size:11px;display:flex;align-items:center;justify-content:center;white-space:normal}
-.ok{background:#e7f7ed;color:#14733d}.low{background:#fff3d6;color:#8a5b00}.high{background:#ffe5e5;color:#a12525}
-.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
-.sum{min-width:0;background:#f1f4f8;border-radius:8px;text-align:center;padding:8px 3px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sum b{display:block;font-size:19px;margin-top:3px}
-.win{outline:2px solid #315efb;background:#eaf0ff}
-.history-title{font-size:17px;margin-bottom:7px}
-.history-item{display:flex;align-items:center;justify-content:space-between;gap:5px;background:#f4f6fa;border-radius:7px;padding:8px;font-size:13px;margin-top:5px}
+.round{width:36px;font-size:16px;color:#53627d}
+.score{display:block;width:100%;height:44px;border:1.5px solid #dbe3f0;border-radius:10px;background:#fff;text-align:center;padding:5px 1px;font-size:19px;font-weight:800;color:#17233b;min-width:0}
+.score.auto-x{background:#fff3df;color:#a45b08;border-color:#f1d39f;font-weight:900;text-align:center;cursor:pointer}
+.total{height:38px;border-radius:10px;background:#edf2fb;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#20345e}
+.status{min-height:25px;border-radius:8px;margin-top:4px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;white-space:normal;padding:2px}
+.ok{background:#e5f7ed;color:#14733d}.low{background:#fff3d6;color:#8a5b00}.high{background:#ffe5e5;color:#a12525}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.sum{min-width:0;background:#f1f5fc;border:1px solid #e4eaf5;border-radius:11px;text-align:center;padding:9px 3px;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#53627d}
+.sum b{display:block;font-size:21px;margin-top:3px;color:#1d2e51}
+.win{outline:2px solid #4268ed;background:#eaf0ff}
+.history-title{font-size:19px;margin-bottom:9px}
+.history-item{display:flex;align-items:center;justify-content:space-between;gap:7px;background:#f4f7fc;border:1px solid #e4eaf5;border-radius:10px;padding:9px;font-size:14px;margin-top:7px}
 .history-item .info{min-width:0;overflow:hidden}
-.history-item .buttons{display:flex;gap:3px;flex-shrink:0}
-.history-item button{min-height:34px;font-size:12px;padding:5px 7px}
-.note{text-align:center;font-size:13px;color:#7b8497;margin-top:7px}
-.add-round-wrap{padding:0 3px 8px}
-.add-round{width:100%;background:#e8efff;color:#2448bd;border:1px solid #cbd8ff}
+.history-item .buttons{display:flex;gap:5px;flex-shrink:0}
+.history-item button{min-height:36px;font-size:13px;padding:5px 8px}
+.note{text-align:center;font-size:14px;color:#75829a;margin-top:9px}
+.add-round-wrap{padding:0 3px 10px}
+.add-round{width:100%;background:#e9efff;color:#2448bd;border:1px solid #cfdbff}
+@media(max-width:380px){
+ .app{padding:8px 5px 18px}.card{padding:9px;border-radius:13px}
+ .table-card{padding:6px 2px 8px}
+ table{border-spacing:2px 5px}
+ thead th{font-size:13px;padding:5px 1px}
+ thead th:first-child{width:30px}thead th:last-child{width:45px}
+ .round{width:30px;font-size:14px}
+ .score{height:41px;font-size:17px;border-radius:8px}
+ .total{height:35px;font-size:15px}.status{font-size:11px;min-height:23px}
+ .name{height:43px;font-size:14px}.sum{font-size:12px}.sum b{font-size:19px}
+}
 @media(min-width:700px){
-  .app{padding:10px 12px 20px}
-  .card{border-radius:14px}
-  .name{height:44px;font-size:15px}
-  button{min-height:42px}
-  thead th{font-size:14px}
-  .score{height:42px;font-size:17px}
-  .total{height:34px;font-size:15px}
-  .status{min-height:24px;font-size:11px}
+ .app{padding:18px 16px 28px}.card{padding:16px;border-radius:18px}
+ .score{height:48px;font-size:20px}.name{height:48px;font-size:17px}
+ thead th{font-size:16px}.total{height:42px;font-size:18px}.status{font-size:13px}
 }
 </style>
 </head>
@@ -165,29 +171,44 @@ function apply360Rule(r){
     return v;
   });
 }
+function makeScoreInput(cell,r,p,value=''){
+  cell.innerHTML=`<input class="score" inputmode="numeric" type="number" min="0" value="${value}" placeholder="—"
+    onfocus="focusScore(this)" oninput="updateScoreLive(this,${r},${p})"
+    onblur="blurScore(this,${r},${p})"
+    onkeydown="if(event.key==='Enter')this.blur()">`;
+}
+function editX(r,p){
+  state.rounds[r][p]=null;
+  const row=document.querySelectorAll('#rows tr')[r];
+  if(!row)return;
+  makeScoreInput(row.children[p+1],r,p,'');
+  save();
+  const input=row.children[p+1].querySelector('input');
+  if(input)input.focus();
+}
+function apply360Rule(r){
+  const values=state.rounds[r];
+  const total=values.reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
+  state.rounds[r]=values.map(v=>{
+    if(total===360&&(v===null||v===undefined))return '×';
+    if(total!==360&&v==='×')return null;
+    return v;
+  });
+}
 function updateScoreLive(el,r,p){
   const raw=el.value.trim();
   state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
   apply360Rule(r);
-
   const row=el.closest('tr');
   for(let i=0;i<4;i++){
-    if(i===p)continue; // টাইপ করা ইনপুট ও কার্সর অক্ষত রাখি।
-    const cell=row.children[i+1];
-    const value=state.rounds[r][i];
+    if(i===p)continue;
+    const cell=row.children[i+1],value=state.rounds[r][i];
     if(value==='×'){
-      if(!cell.querySelector('.auto-x')){
-        cell.innerHTML='<div class="score auto-x" aria-label="স্বয়ংক্রিয় বাদ">×</div>';
-      }
+      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+i+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
     }else if(!cell.querySelector('input.score')){
-      cell.innerHTML=`<input class="score" inputmode="numeric" type="number" min="0" value="${value??''}" placeholder="—"
-        onfocus="focusScore(this)" onclick="focusScore(this)"
-        oninput="updateScoreLive(this,${r},${i})"
-        onblur="blurScore(this,${r},${i})"
-        onkeydown="if(event.key==='Enter')this.blur()">`;
+      makeScoreInput(cell,r,i,value??'');
     }
   }
-
   const values=state.rounds[r];
   const total=values.reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
   const completed=values.every(v=>v!==null&&v!==undefined);
@@ -195,8 +216,7 @@ function updateScoreLive(el,r,p){
   row.querySelector('.total').textContent=total;
   status.textContent=completed?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
   status.className='status '+(completed?(total===360?'ok':(total<360?'low':'high')):'low');
-  save();
-  renderSummary();
+  save();renderSummary();
 }
 function addRound(){
   state.rounds.push([null,null,null,null]);
@@ -210,7 +230,29 @@ function blurScore(el,r,p){
   state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
   apply360Rule(r);
   save();
-  render();
+  // টেবিল পুনরায় render নয়—পরের ইনপুটের টাচ/ফোকাস নষ্ট হবে না।
+  updateRowDisplay(r);
+}
+function updateRowDisplay(r){
+  const row=document.querySelectorAll('#rows tr')[r];
+  if(!row)return;
+  for(let p=0;p<4;p++){
+    const cell=row.children[p+1],v=state.rounds[r][p];
+    if(v==='×'){
+      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+p+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
+    }else if(!cell.querySelector('input.score')){
+      makeScoreInput(cell,r,p,v??'');
+    }else if(document.activeElement!==cell.querySelector('input.score')){
+      cell.querySelector('input.score').value=v??'';
+    }
+  }
+  const total=state.rounds[r].reduce((s,v)=>s+(typeof v==='number'?v:0),0);
+  const done=state.rounds[r].every(v=>v!==null&&v!==undefined);
+  row.querySelector('.total').textContent=total;
+  const st=row.querySelector('.status');
+  st.textContent=done?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
+  st.className='status '+(done?(total===360?'ok':(total<360?'low':'high')):'low');
+  renderSummary();
 }
 function renderSummary(){
   const totals=[0,0,0,0];
@@ -235,7 +277,7 @@ function render(){
     let cells=`<td class="round">${r+1}</td>`;
     for(let p=0;p<4;p++){
       if(a[p]==='×'){
-        cells+=`<td><div class="score auto-x" aria-label="স্বয়ংক্রিয় বাদ">×</div></td>`;
+        cells+=`<td><button type="button" class="score auto-x" onclick="editX(${r},${p})" aria-label="পয়েন্ট দিতে টাচ করুন">×</button></td>`;
       }else{
         const val=a[p]===null||a[p]===undefined?'':a[p];
         cells+=`<td>
