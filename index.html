@@ -28,6 +28,7 @@ tbody td{text-align:center;padding:0}
 .round{width:31px;font-size:14px}
 .score{display:block;width:100%;height:42px;border:1px solid #d7deea;border-radius:7px;background:#fff;text-align:center;padding:5px 1px;font-size:17px;font-weight:700;color:#172033}
 .score:focus{border-color:#315efb;outline:0;box-shadow:0 0 0 2px rgba(49,94,251,.1)}
+.score.auto-x{background:#eef1f6;color:#687386;border-color:#d9dee8;font-weight:800;text-align:center}
 .total{height:34px;border-radius:7px;background:#f0f3f8;display:flex;align-items:center;justify-content:center;font-size:15px}
 .status{min-height:24px;border-radius:6px;margin-top:3px;font-size:11px;display:flex;align-items:center;justify-content:center;white-space:normal}
 .ok{background:#e7f7ed;color:#14733d}.low{background:#fff3d6;color:#8a5b00}.high{background:#ffe5e5;color:#a12525}
@@ -103,7 +104,7 @@ const ROUNDS=10;
 function fresh(){
   return {
     names:['খেলোয়াড় ১','খেলোয়াড় ২','খেলোয়াড় ৩','খেলোয়াড় ৪'],
-    rounds:Array.from({length:ROUNDS},()=>[0,0,0,0])
+    rounds:Array.from({length:ROUNDS},()=>[null,null,null,null])
   };
 }
 function load(){
@@ -112,8 +113,12 @@ function load(){
     if(!saved||!Array.isArray(saved.rounds))return fresh();
     saved.names=Array.isArray(saved.names)?saved.names.slice(0,4):fresh().names;
     while(saved.names.length<4)saved.names.push('খেলোয়াড় '+(saved.names.length+1));
-    saved.rounds=saved.rounds.slice(0,ROUNDS);
-    while(saved.rounds.length<ROUNDS)saved.rounds.push([0,0,0,0]);
+    saved.rounds=saved.rounds.slice(0,ROUNDS).map(a=>{
+      const row=Array.isArray(a)?a.slice(0,4):[null,null,null,null];
+      while(row.length<4)row.push(null);
+      return row.map(v=>v==='×'?'×':(v===null||v===undefined||v===''||Number(v)===0?null:Number(v)));
+    });
+    while(saved.rounds.length<ROUNDS)saved.rounds.push([null,null,null,null]);
     return saved;
   }catch(e){return fresh()}
 }
@@ -151,37 +156,42 @@ function focusScore(el){
   if(el.value==='0') el.value='';
 }
 function updateScoreLive(el,r,p){
-  let v=parseInt(el.value,10);
-  if(!Number.isFinite(v)||v<0)v=0;
-  state.rounds[r][p]=v;
-  save();
-  const row=el.closest('tr');
-  const total=state.rounds[r].reduce((x,y)=>x+(Number(y)||0),0);
-  row.querySelector('.total').textContent=total;
-  const status=row.querySelector('.status');
-  status.className='status '+(total===360?'ok':(total<360?'low':'high'));
-  status.textContent=total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি');
-  renderSummary();
+  const raw=el.value.trim();
+  state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
+  const entered=state.rounds[r].filter(v=>v!==null&&v!=='×').length;
+  if(entered>=2){
+    state.rounds[r]=state.rounds[r].map(v=>v===null?'×':v);
+    save();
+    render();
+  }else{
+    save();
+    const row=el.closest('tr');
+    const total=state.rounds[r].reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
+    row.querySelector('.total').textContent=total;
+    row.querySelector('.status').textContent='চলছে';
+    row.querySelector('.status').className='status low';
+    renderSummary();
+  }
 }
 function addRound(){
-  state.rounds.push([0,0,0,0]);
+  state.rounds.push([null,null,null,null]);
   save();
   render();
   const inputs=document.querySelectorAll('#rows tr:last-child .score');
   if(inputs.length)inputs[0].focus();
 }
 function blurScore(el,r,p){
-  if(el.value.trim()==='') el.value='0';
-  let v=parseInt(el.value,10);
-  if(!Number.isFinite(v)||v<0)v=0;
-  el.value=v;
-  state.rounds[r][p]=v;
+  const raw=el.value.trim();
+  state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
+  const entered=state.rounds[r].filter(v=>v!==null&&v!=='×').length;
+  if(entered>=2)state.rounds[r]=state.rounds[r].map(v=>v===null?'×':v);
+  else state.rounds[r]=state.rounds[r].map(v=>v==='×'?null:v);
   save();
   render();
 }
 function renderSummary(){
   const totals=[0,0,0,0];
-  state.rounds.forEach(a=>a.forEach((v,i)=>totals[i]+=Number(v)||0));
+  state.rounds.forEach(a=>a.forEach((v,i)=>totals[i]+=typeof v==='number'?v:0));
   const max=Math.max(...totals);
   document.getElementById('summary').innerHTML=totals.map((v,i)=>
     `<div class="sum ${v===max&&max>0?'win':''}">
@@ -201,17 +211,23 @@ function render(){
     const tr=document.createElement('tr');
     let cells=`<td class="round">${r+1}</td>`;
     for(let p=0;p<4;p++){
-      cells+=`<td>
-        <input class="score" inputmode="numeric" type="number" min="0" value="${Number(a[p])||0}"
-          onfocus="focusScore(this)" onclick="focusScore(this)"
-          oninput="updateScoreLive(this,${r},${p})"
-          onblur="blurScore(this,${r},${p})"
-          onkeydown="if(event.key==='Enter')this.blur()">
-      </td>`;
+      if(a[p]==='×'){
+        cells+=`<td><div class="score auto-x" aria-label="স্বয়ংক্রিয় বাদ">×</div></td>`;
+      }else{
+        const val=a[p]===null||a[p]===undefined?'':a[p];
+        cells+=`<td>
+          <input class="score" inputmode="numeric" type="number" min="0" value="${val}" placeholder="—"
+            onfocus="focusScore(this)" onclick="focusScore(this)"
+            oninput="updateScoreLive(this,${r},${p})"
+            onblur="blurScore(this,${r},${p})"
+            onkeydown="if(event.key==='Enter')this.blur()">
+        </td>`;
+      }
     }
-    const total=a.reduce((x,y)=>x+(Number(y)||0),0);
-    const cls=total===360?'ok':(total<360?'low':'high');
-    const txt=total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি');
+    const total=a.reduce((x,y)=>x+(typeof y==='number'?y:0),0);
+    const completed=a.every(v=>v!==null&&v!==undefined);
+    const cls=completed?(total===360?'ok':(total<360?'low':'high')):'low';
+    const txt=completed?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
     cells+=`<td><div class="total">${total}</div><div class="status ${cls}">${txt}</div></td>`;
     tr.innerHTML=cells;
     rows.appendChild(tr);
@@ -220,7 +236,7 @@ function render(){
   renderHistory();
 }
 function newGame(){
-  const hasScore=state.rounds.some(a=>a.some(v=>Number(v)>0));
+  const hasScore=state.rounds.some(a=>a.some(v=>v!==null&&v!==undefined&&v!=='×'));
   if(hasScore){
     const h=getHistory();
     h.unshift({
@@ -252,7 +268,7 @@ function renderHistory(){
   }
   list.innerHTML=h.map((g,i)=>{
     const totals=[0,0,0,0];
-    g.rounds.forEach(a=>a.forEach((v,p)=>totals[p]+=Number(v)||0));
+    g.rounds.forEach(a=>a.forEach((v,p)=>totals[p]+=typeof v==='number'?v:0));
     return `<div class="history-item">
       <div class="info">${escapeHtml(g.time)}<br>${escapeHtml(g.names.join(' · '))}<br>${totals.join(' / ')}</div>
       <div class="buttons">
@@ -267,7 +283,7 @@ function restoreGame(i){
   if(!h[i])return;
   state={
     names:[...h[i].names],
-    rounds:h[i].rounds.map(a=>[...a])
+    rounds:h[i].rounds.map(a=>a.map(v=>v==='×'?'×':(v===null||v===undefined?null:Number(v))))
   };
   save();
   render();
