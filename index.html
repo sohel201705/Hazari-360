@@ -155,17 +155,20 @@ function renderHeaders(){
 function focusScore(el){
   if(el.value==='0') el.value='';
 }
+function apply360Rule(r){
+  const values=state.rounds[r];
+  const total=values.reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
+  // কেবল রাউন্ডের যোগফল ৩৬০ হলেই বাকি ফাঁকা ঘরে X বসবে।
+  state.rounds[r]=values.map(v=>{
+    if(total===360 && (v===null||v===undefined))return '×';
+    if(total!==360 && v==='×')return null;
+    return v;
+  });
+}
 function updateScoreLive(el,r,p){
   const raw=el.value.trim();
   state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
-
-  // প্রতিটি ইনপুটের সাথেই হিসাব আপডেট হবে; দুইটি স্কোর হলে বাকি ঘরে X বসবে।
-  const entered=state.rounds[r].filter(v=>typeof v==='number').length;
-  if(entered>=2){
-    state.rounds[r]=state.rounds[r].map(v=>v===null?'×':v);
-  }else{
-    state.rounds[r]=state.rounds[r].map(v=>v==='×'?null:v);
-  }
+  apply360Rule(r);
 
   const row=el.closest('tr');
   for(let i=0;i<4;i++){
@@ -177,7 +180,7 @@ function updateScoreLive(el,r,p){
         cell.innerHTML='<div class="score auto-x" aria-label="স্বয়ংক্রিয় বাদ">×</div>';
       }
     }else if(!cell.querySelector('input.score')){
-      cell.innerHTML=`<input class="score" inputmode="numeric" type="number" min="0" value="" placeholder="—"
+      cell.innerHTML=`<input class="score" inputmode="numeric" type="number" min="0" value="${value??''}" placeholder="—"
         onfocus="focusScore(this)" onclick="focusScore(this)"
         oninput="updateScoreLive(this,${r},${i})"
         onblur="blurScore(this,${r},${i})"
@@ -205,9 +208,7 @@ function addRound(){
 function blurScore(el,r,p){
   const raw=el.value.trim();
   state.rounds[r][p]=raw===''?null:Math.max(0,parseInt(raw,10)||0);
-  const entered=state.rounds[r].filter(v=>v!==null&&v!=='×').length;
-  if(entered>=2)state.rounds[r]=state.rounds[r].map(v=>v===null?'×':v);
-  else state.rounds[r]=state.rounds[r].map(v=>v==='×'?null:v);
+  apply360Rule(r);
   save();
   render();
 }
