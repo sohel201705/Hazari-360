@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f5f7fb">
-<title>হাজারী ৩৬০</title>
+<title>Hazari 360</title>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;width:100%;min-height:100%;background:#f3f6fc}
@@ -73,15 +73,15 @@ tbody td{text-align:center;padding:0}
     </table>
   </section>
 
-  <div class="add-round-wrap"><button class="add-round" onclick="addRound()">＋ আরও Round যোগ করুন</button></div>
+  <div class="add-round-wrap"><button class="add-round" onclick="addRound()">+ Add Round</button></div>
 
   <section class="card">
     <div class="summary" id="summary"></div>
-    <div class="note">প্রতি Roundের Total ৩৬০ হওয়া উচিত</div>
+    <div class="note">Each round should total 360</div>
   </section>
 
   <section class="card" id="history" style="display:none">
-    <div class="history-title">গেম History</div>
+    <div class="history-title">Game History</div>
     <div id="historyList"></div>
   </section>
 </div>
@@ -139,7 +139,7 @@ function renderHeaders(){
   }
 }
 function focusScore(el){
-  // পরের Roundে ঢুকলেই আগের ৩৬০-পূর্ণ Roundের ফাঁকা ঘরে X বসবে।
+  // Fill remaining cells with X when moving to the next round.
   const row=el.closest('tr');
   const currentRound=row?Array.from(row.parentElement.children).indexOf(row):-1;
   if(currentRound>0){
@@ -162,7 +162,7 @@ function finalizeRound(r){
 function apply360Rule(r){
   const values=state.rounds[r];
   const total=values.reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
-  // কেবল Roundের যোগফল ৩৬০ হলেই বাকি ফাঁকা ঘরে X বসবে।
+  // Only a 360 total qualifies the remaining empty cells for X.
   state.rounds[r]=values.map(v=>{
     if(total===360 && (v===null||v===undefined))return '×';
     if(total!==360 && v==='×')return null;
@@ -210,7 +210,7 @@ function updateScoreLive(el,r,p){
     if(i===p)continue;
     const cell=row.children[i+1],value=state.rounds[r][i];
     if(value==='×'){
-      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+i+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
+      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+i+')" aria-label="Tap to enter points">×</button>';
     }else if(!cell.querySelector('input.score')){
       makeScoreInput(cell,r,i,value??'');
     }
@@ -244,7 +244,7 @@ function blurScore(el,r,p){
   const liveTotal=state.rounds[r].reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
   if(liveTotal!==360)state.rounds[r]=state.rounds[r].map(v=>v==='×'?null:v);
   save();
-  // Blur-এ কোনো DOM পরিবর্তন নয়: পাশের বক্সে টাচ করলে সেই ক্লিক অক্ষত থাকবে।
+  // Do not change the DOM on blur; preserve the next tap.
   const row=el.closest('tr');
   if(row){
     const values=state.rounds[r];
@@ -263,7 +263,7 @@ function updateRowDisplay(r){
   for(let p=0;p<4;p++){
     const cell=row.children[p+1],v=state.rounds[r][p];
     if(v==='×'){
-      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+p+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
+      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+p+')" aria-label="Tap to enter points">×</button>';
     }else if(!cell.querySelector('input.score')){
       makeScoreInput(cell,r,p,v??'');
     }else if(document.activeElement!==cell.querySelector('input.score')){
@@ -301,7 +301,7 @@ function render(){
     let cells=`<td class="round">${r+1}</td>`;
     for(let p=0;p<4;p++){
       if(a[p]==='×'){
-        cells+=`<td><button type="button" class="score auto-x" onclick="editX(${r},${p})" aria-label="পয়েন্ট দিতে টাচ করুন">×</button></td>`;
+        cells+=`<td><button type="button" class="score auto-x" onclick="editX(${r},${p})" aria-label="Tap to enter points">×</button></td>`;
       }else{
         const val=a[p]===null||a[p]===undefined?'':a[p];
         cells+=`<td>
