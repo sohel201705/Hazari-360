@@ -207,7 +207,7 @@ function updateScoreLive(el,r,p){
     if(i===p)continue;
     const cell=row.children[i+1],value=state.rounds[r][i];
     if(value==='×'){
-      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onpointerdown="event.preventDefault();editX('+r+','+i+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
+      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+i+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
     }else if(!cell.querySelector('input.score')){
       makeScoreInput(cell,r,i,value??'');
     }
@@ -253,7 +253,7 @@ function updateRowDisplay(r){
   for(let p=0;p<4;p++){
     const cell=row.children[p+1],v=state.rounds[r][p];
     if(v==='×'){
-      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onpointerdown="event.preventDefault();editX('+r+','+p+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
+      if(!cell.querySelector('.auto-x'))cell.innerHTML='<button type="button" class="score auto-x" onclick="editX('+r+','+p+')" aria-label="পয়েন্ট দিতে টাচ করুন">×</button>';
     }else if(!cell.querySelector('input.score')){
       makeScoreInput(cell,r,p,v??'');
     }else if(document.activeElement!==cell.querySelector('input.score')){
@@ -291,7 +291,7 @@ function render(){
     let cells=`<td class="round">${r+1}</td>`;
     for(let p=0;p<4;p++){
       if(a[p]==='×'){
-        cells+=`<td><button type="button" class="score auto-x" onpointerdown="event.preventDefault();editX(${r},${p})" aria-label="পয়েন্ট দিতে টাচ করুন">×</button></td>`;
+        cells+=`<td><button type="button" class="score auto-x" onclick="editX(${r},${p})" aria-label="পয়েন্ট দিতে টাচ করুন">×</button></td>`;
       }else{
         const val=a[p]===null||a[p]===undefined?'':a[p];
         cells+=`<td>
