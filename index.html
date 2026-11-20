@@ -10,66 +10,50 @@
 html,body{margin:0;padding:0;width:100%;min-height:100%;background:#f3f6fc}
 body{color:#17233b;font-family:"Hind Siliguri","Noto Sans Bengali",Arial,sans-serif;font-weight:700}
 button,input{font:inherit}button{cursor:pointer}
-.app{width:100%;max-width:980px;margin:0 auto;padding:12px 9px 24px}
-.card{width:100%;background:#fff;border:1px solid #e2e8f3;border-radius:16px;padding:12px;margin:0 0 10px;box-shadow:0 5px 18px rgba(35,55,95,.06)}
-.title{font-size:28px;line-height:1.25;text-align:center;margin:0 0 12px;color:#1e3470;letter-spacing:.2px}
-.names{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-.name{width:100%;min-width:0;height:46px;border:1.5px solid #d8e0ef;border-radius:11px;background:#f8faff;text-align:center;padding:6px 3px;font-size:16px;font-weight:800;color:#1c2942}
-.name:focus,.score:focus{border-color:#4268ed;outline:0;box-shadow:0 0 0 3px rgba(66,104,237,.13)}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
-button{border:0;border-radius:11px;min-height:44px;padding:8px 10px;font-size:16px;font-weight:800}
-.primary{background:linear-gradient(135deg,#315efb,#2446c8);color:#fff;box-shadow:0 4px 10px rgba(49,94,251,.18)}
+.app{width:100%;max-width:900px;margin:0 auto;padding:8px clamp(4px,1.5vw,12px) 16px}
+.card{width:100%;background:#fff;border:1px solid #e2e8f3;border-radius:12px;padding:8px;margin:0 0 7px;box-shadow:0 2px 9px rgba(35,55,95,.05)}
+.title{font-size:clamp(22px,5vw,29px);line-height:1.15;text-align:center;margin:0 0 7px;color:#1e3470;letter-spacing:.3px}
+.name{width:100%;min-width:0;height:30px;border:1px solid #d8e0ef;border-radius:7px;background:#f8faff;text-align:center;padding:2px 1px;font-size:clamp(12px,2.8vw,16px);font-weight:900;color:#1c2942}
+.name:focus,.score:focus{border-color:#4268ed;outline:0;box-shadow:0 0 0 2px rgba(66,104,237,.13)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:5px}
+button{border:0;border-radius:8px;min-height:34px;padding:5px 8px;font-size:clamp(13px,3vw,16px);font-weight:900}
+.primary{background:linear-gradient(135deg,#315efb,#2446c8);color:#fff}
 .secondary{background:#edf2fb;color:#263858}
-.table-card{padding:8px 5px 10px;overflow-x:auto}
-table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:3px 6px}
-thead th{font-size:15px;line-height:1.2;padding:6px 2px;color:#455675;white-space:normal;overflow-wrap:anywhere}
-thead th:first-child{width:36px}
-thead th:last-child{width:52px}
+.table-card{padding:5px 3px 7px;overflow:hidden}
+table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:2px 3px}
+thead th{font-size:clamp(11px,2.7vw,15px);line-height:1.05;padding:2px 1px;color:#34445f;white-space:normal;overflow-wrap:anywhere}
+thead th:first-child{width:29px}
+thead th:last-child{width:43px}
+thead th:nth-child(2),thead th:nth-child(3),thead th:nth-child(4),thead th:nth-child(5){width:auto}
 tbody td{text-align:center;padding:0}
-.round{width:36px;font-size:16px;color:#53627d}
-.score{display:block;width:100%;height:44px;border:1.5px solid #dbe3f0;border-radius:10px;background:#fff;text-align:center;padding:5px 1px;font-size:19px;font-weight:800;color:#17233b;min-width:0}
+.round{width:29px;font-size:clamp(13px,3vw,17px);color:#34445f}
+.score{display:block;width:100%;height:34px;border:1px solid #dbe3f0;border-radius:7px;background:#fff;text-align:center;padding:2px 1px;font-size:clamp(17px,4vw,21px);font-weight:900;color:#17233b;min-width:0}
 .score.auto-x{position:relative;z-index:2;pointer-events:auto;touch-action:manipulation;background:#fff3df;color:#a45b08;border-color:#f1d39f;font-weight:900;text-align:center;cursor:pointer}
-.total{height:38px;border-radius:10px;background:#edf2fb;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#20345e}
-.status{min-height:25px;border-radius:8px;margin-top:4px;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;white-space:normal;padding:2px}
+.total{height:29px;border-radius:6px;background:#edf2fb;display:flex;align-items:center;justify-content:center;font-size:clamp(15px,3.5vw,18px);font-weight:900;color:#20345e}
+.status{min-height:18px;border-radius:5px;margin-top:2px;font-size:clamp(9px,2.2vw,12px);font-weight:900;display:flex;align-items:center;justify-content:center;white-space:normal;padding:1px}
 .ok{background:#e5f7ed;color:#14733d}.low{background:#fff3d6;color:#8a5b00}.high{background:#ffe5e5;color:#a12525}
-.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-.sum{min-width:0;background:#f1f5fc;border:1px solid #e4eaf5;border-radius:11px;text-align:center;padding:9px 3px;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#53627d}
-.sum b{display:block;font-size:21px;margin-top:3px;color:#1d2e51}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.sum{min-width:0;background:#f1f5fc;border:1px solid #e4eaf5;border-radius:7px;text-align:center;padding:5px 2px;font-size:clamp(11px,2.6vw,14px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#53627d}
+.sum b{display:block;font-size:clamp(17px,4vw,22px);margin-top:1px;color:#1d2e51}
 .win{outline:2px solid #4268ed;background:#eaf0ff}
-.history-title{font-size:19px;margin-bottom:9px}
-.history-item{display:flex;align-items:center;justify-content:space-between;gap:7px;background:#f4f7fc;border:1px solid #e4eaf5;border-radius:10px;padding:9px;font-size:14px;margin-top:7px}
+.history-title{font-size:17px;margin-bottom:6px}
+.history-item{display:flex;align-items:center;justify-content:space-between;gap:6px;background:#f4f7fc;border:1px solid #e4eaf5;border-radius:8px;padding:7px;font-size:12px;margin-top:5px}
 .history-item .info{min-width:0;overflow:hidden}
-.history-item .buttons{display:flex;gap:5px;flex-shrink:0}
-.history-item button{min-height:36px;font-size:13px;padding:5px 8px}
-.note{text-align:center;font-size:14px;color:#75829a;margin-top:9px}
-.add-round-wrap{padding:0 3px 10px}
+.history-item .buttons{display:flex;gap:4px;flex-shrink:0}
+.history-item button{min-height:29px;font-size:11px;padding:3px 6px}
+.note{text-align:center;font-size:12px;color:#75829a;margin-top:5px}
+.add-round-wrap{padding:0 2px 6px}
 .add-round{width:100%;background:#e9efff;color:#2448bd;border:1px solid #cfdbff}
-@media(max-width:380px){
- .app{padding:8px 5px 18px}.card{padding:9px;border-radius:13px}
- .table-card{padding:6px 2px 8px}
- table{border-spacing:2px 5px}
- thead th{font-size:13px;padding:5px 1px}
- thead th:first-child{width:30px}thead th:last-child{width:45px}
- .round{width:30px;font-size:14px}
- .score{height:41px;font-size:17px;border-radius:8px}
- .total{height:35px;font-size:15px}.status{font-size:11px;min-height:23px}
- .name{height:43px;font-size:14px}.sum{font-size:12px}.sum b{font-size:19px}
-}
-@media(min-width:700px){
- .app{padding:18px 16px 28px}.card{padding:16px;border-radius:18px}
- .score{height:48px;font-size:20px}.name{height:48px;font-size:17px}
- thead th{font-size:16px}.total{height:42px;font-size:18px}.status{font-size:13px}
-}
+@media(min-width:650px){.app{padding-top:12px}.card{padding:11px}.score{height:38px}}
 </style>
 </head>
 <body>
 <div class="app">
   <section class="card">
-    <h1 class="title">হাজারী ৩৬০</h1>
-    <div class="names" id="names"></div>
+    <h1 class="title">HAZARI 360</h1>
     <div class="actions">
-      <button class="primary" onclick="newGame()">নতুন গেম</button>
-      <button class="secondary" onclick="toggleHistory()">হিস্ট্রি</button>
+      <button class="primary" onclick="newGame()">New Game</button>
+      <button class="secondary" onclick="toggleHistory()">History</button>
     </div>
   </section>
 
@@ -77,27 +61,27 @@ tbody td{text-align:center;padding:0}
     <table>
       <thead>
         <tr>
-          <th>রাউন্ড</th>
-          <th id="h0">খেলোয়াড় ১</th>
-          <th id="h1">খেলোয়াড় ২</th>
-          <th id="h2">খেলোয়াড় ৩</th>
-          <th id="h3">খেলোয়াড় ৪</th>
-          <th>মোট</th>
+          <th>Round</th>
+          <th id="h0">Player 1</th>
+          <th id="h1">Player 2</th>
+          <th id="h2">Player 3</th>
+          <th id="h3">Player 4</th>
+          <th>Total</th>
         </tr>
       </thead>
       <tbody id="rows"></tbody>
     </table>
   </section>
 
-  <div class="add-round-wrap"><button class="add-round" onclick="addRound()">＋ আরও রাউন্ড যোগ করুন</button></div>
+  <div class="add-round-wrap"><button class="add-round" onclick="addRound()">＋ আরও Round যোগ করুন</button></div>
 
   <section class="card">
     <div class="summary" id="summary"></div>
-    <div class="note">প্রতি রাউন্ডের মোট ৩৬০ হওয়া উচিত</div>
+    <div class="note">প্রতি Roundের Total ৩৬০ হওয়া উচিত</div>
   </section>
 
   <section class="card" id="history" style="display:none">
-    <div class="history-title">গেম হিস্ট্রি</div>
+    <div class="history-title">গেম History</div>
     <div id="historyList"></div>
   </section>
 </div>
@@ -109,7 +93,7 @@ const ROUNDS=10;
 
 function fresh(){
   return {
-    names:['খেলোয়াড় ১','খেলোয়াড় ২','খেলোয়াড় ৩','খেলোয়াড় ৪'],
+    names:['Player 1','Player 2','Player 3','Player 4'],
     rounds:Array.from({length:ROUNDS},()=>[null,null,null,null])
   };
 }
@@ -118,7 +102,7 @@ function load(){
     const saved=JSON.parse(localStorage.getItem(KEY));
     if(!saved||!Array.isArray(saved.rounds))return fresh();
     saved.names=Array.isArray(saved.names)?saved.names.slice(0,4):fresh().names;
-    while(saved.names.length<4)saved.names.push('খেলোয়াড় '+(saved.names.length+1));
+    while(saved.names.length<4)saved.names.push('Player '+(saved.names.length+1));
     saved.rounds=saved.rounds.map(a=>{
       const row=Array.isArray(a)?a.slice(0,4):[null,null,null,null];
       while(row.length<4)row.push(null);
@@ -136,30 +120,26 @@ function getHistory(){
 }
 function saveHistory(h){localStorage.setItem(HKEY,JSON.stringify(h.slice(0,20)))}
 
-function renderNames(){
-  const box=document.getElementById('names');
-  box.innerHTML='';
-  state.names.forEach((name,i)=>{
+function renderNames(){ /* Player names are edited only once, in the table headers. */ }
+function renderHeaders(){
+  for(let i=0;i<4;i++){
+    const th=document.getElementById('h'+i);
+    th.innerHTML='';
     const el=document.createElement('input');
     el.className='name';
-    el.value=name;
-    el.placeholder='খেলোয়াড় '+(i+1);
+    el.value=state.names[i]||('Player '+(i+1));
+    el.setAttribute('aria-label','Player '+(i+1)+' name');
+    el.maxLength=18;
     el.oninput=()=>{
       state.names[i]=el.value;
       save();
-      renderHeaders();
       renderSummary();
     };
-    box.appendChild(el);
-  });
-}
-function renderHeaders(){
-  for(let i=0;i<4;i++){
-    document.getElementById('h'+i).textContent=state.names[i]||('খেলোয়াড় '+(i+1));
+    th.appendChild(el);
   }
 }
 function focusScore(el){
-  // পরের রাউন্ডে ঢুকলেই আগের ৩৬০-পূর্ণ রাউন্ডের ফাঁকা ঘরে X বসবে।
+  // পরের Roundে ঢুকলেই আগের ৩৬০-পূর্ণ Roundের ফাঁকা ঘরে X বসবে।
   const row=el.closest('tr');
   const currentRound=row?Array.from(row.parentElement.children).indexOf(row):-1;
   if(currentRound>0){
@@ -182,7 +162,7 @@ function finalizeRound(r){
 function apply360Rule(r){
   const values=state.rounds[r];
   const total=values.reduce((sum,v)=>sum+(typeof v==='number'?v:0),0);
-  // কেবল রাউন্ডের যোগফল ৩৬০ হলেই বাকি ফাঁকা ঘরে X বসবে।
+  // কেবল Roundের যোগফল ৩৬০ হলেই বাকি ফাঁকা ঘরে X বসবে।
   state.rounds[r]=values.map(v=>{
     if(total===360 && (v===null||v===undefined))return '×';
     if(total!==360 && v==='×')return null;
@@ -240,7 +220,7 @@ function updateScoreLive(el,r,p){
   const completed=values.every(v=>v!==null&&v!==undefined);
   const status=row.querySelector('.status');
   row.querySelector('.total').textContent=total;
-  status.textContent=completed?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
+  status.textContent=completed?(total===360?'Perfect':(total<360?'Under':'Over')):'In Progress';
   status.className='status '+(completed?(total===360?'ok':(total<360?'low':'high')):'low');
   save();renderSummary();
 }
@@ -272,7 +252,7 @@ function blurScore(el,r,p){
     const done=values.every(v=>v!==null&&v!==undefined);
     row.querySelector('.total').textContent=total;
     const st=row.querySelector('.status');
-    st.textContent=done?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
+    st.textContent=done?(total===360?'Perfect':(total<360?'Under':'Over')):'In Progress';
     st.className='status '+(done?(total===360?'ok':(total<360?'low':'high')):'low');
   }
   renderSummary();
@@ -294,7 +274,7 @@ function updateRowDisplay(r){
   const done=state.rounds[r].every(v=>v!==null&&v!==undefined);
   row.querySelector('.total').textContent=total;
   const st=row.querySelector('.status');
-  st.textContent=done?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
+  st.textContent=done?(total===360?'Perfect':(total<360?'Under':'Over')):'In Progress';
   st.className='status '+(done?(total===360?'ok':(total<360?'low':'high')):'low');
   renderSummary();
 }
@@ -304,7 +284,7 @@ function renderSummary(){
   const max=Math.max(...totals);
   document.getElementById('summary').innerHTML=totals.map((v,i)=>
     `<div class="sum ${v===max&&max>0?'win':''}">
-      ${escapeHtml(state.names[i]||('খেলোয়াড় '+(i+1)))}<b>${v}</b>
+      ${escapeHtml(state.names[i]||('Player '+(i+1)))}<b>${v}</b>
     </div>`
   ).join('');
 }
@@ -336,7 +316,7 @@ function render(){
     const total=a.reduce((x,y)=>x+(typeof y==='number'?y:0),0);
     const completed=a.every(v=>v!==null&&v!==undefined);
     const cls=completed?(total===360?'ok':(total<360?'low':'high')):'low';
-    const txt=completed?(total===360?'ঠিক ৩৬০':(total<360?'কম':'বেশি')):'চলছে';
+    const txt=completed?(total===360?'Perfect':(total<360?'Under':'Over')):'In Progress';
     cells+=`<td><div class="total">${total}</div><div class="status ${cls}">${txt}</div></td>`;
     tr.innerHTML=cells;
     rows.appendChild(tr);
@@ -372,7 +352,7 @@ function renderHistory(){
   const list=document.getElementById('historyList');
   const h=getHistory();
   if(!h.length){
-    list.innerHTML='<div style="font-size:10px;color:#7b8497">কোনো পুরোনো গেম নেই</div>';
+    list.innerHTML='<div style="font-size:10px;color:#7b8497">No previous games</div>';
     return;
   }
   list.innerHTML=h.map((g,i)=>{
